@@ -1,27 +1,21 @@
 {
   "name": "goat-assets-dubai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/admin-app",
+    "apps/funnel-app"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "dev:admin": "npm --prefix admin-app run dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.19.3",
-    "next": "16.4.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "dev:admin": "npm run dev --workspace=admin-app",
+    "dev:funnel": "npm run dev --workspace=funnel-app",
+    "build:admin": "npm run build --workspace=admin-app",
+    "build:funnel": "npm run build --workspace=funnel-app",
+    "build": "npm run build --workspaces",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.0",
-    "prisma": "^6.19.3",
-    "typescript": "^5"
+    "prisma": "^6.19.3"
   }
 }

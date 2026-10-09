@@ -5,7 +5,9 @@ import path from "path";
 // Read DATABASE_URL from .env directly to ensure hot reload when .env changes
 function getDatabaseUrl(): string | undefined {
   try {
-    const envPath = path.resolve(process.cwd(), ".env");
+    const localEnv = path.resolve(process.cwd(), ".env");
+    const rootEnv = path.resolve(process.cwd(), "..", "..", ".env");
+    const envPath = fs.existsSync(localEnv) ? localEnv : rootEnv;
     if (fs.existsSync(envPath)) {
       const content = fs.readFileSync(envPath, "utf-8");
       const match = content.match(/DATABASE_URL=["']?([^"'\r\n]+)["']?/);

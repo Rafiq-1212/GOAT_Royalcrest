@@ -6,6 +6,13 @@ import { Submission } from "../types/lead";
 import styles from "./page.module.css";
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [loginEmail, setLoginEmail] = useState<string>("adminassets@gmail.com");
+  const [loginPassword, setLoginPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>("");
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,8 +21,32 @@ export default function AdminPage() {
   const [filterBudget, setFilterBudget] = useState<string>("ALL");
   const [filterTimeline, setFilterTimeline] = useState<string>("ALL");
   const [selectedSub, setSelectedSub] = useState<Submission | null>(null);
+  const [deleteConfirmSub, setDeleteConfirmSub] = useState<Submission | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [deleteError, setDeleteError] = useState<string>("");
 
-  // Fetch real submissions from Neon database via Prisma API (with localStorage fallback)
+  // Check existing session on load
+  const checkSession = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/session");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated) {
+          setIsAuthenticated(true);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn("Session check fallback:", err);
+    }
+    setIsAuthenticated(false);
+  }, []);
+
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
+
+  // Fetch real submissions from Neon database via Prisma API
   const fetchSubmissions = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -40,12 +71,16 @@ export default function AdminPage() {
           setIsLoading(false);
           return;
         }
+      } else if (res.status === 401) {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
       }
     } catch (err) {
       console.warn("Neon DB API fetch fallback:", err);
     }
 
-    // Client localStorage fallback if DB endpoint is offline or before DB push
+    // Client localStorage fallback
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("goat_assets_submissions");
@@ -67,8 +102,96 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    fetchSubmissions();
-  }, [fetchSubmissions]);
+    if (isAuthenticated) {
+      fetchSubmissions();
+    }
+  }, [isAuthenticated, fetchSubmissions]);
+
+  // Login handler with bcrypt verification API
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setIsLoggingIn(true);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: loginEmail,
+          password: loginPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setIsAuthenticated(true);
+        setLoginPassword("");
+        fetchSubmissions();
+      } else {
+        setLoginError(data.message || "Invalid username or password.");
+      }
+    } catch {
+      setLoginError("Connection failed. Please verify the admin server is running.");
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
+    setIsAuthenticated(false);
+    setSubmissions([]);
+  };
+
+  // Delete submission handler
+  const handleDeleteSubmission = async () => {
+    if (!deleteConfirmSub) return;
+    setIsDeleting(true);
+    setDeleteError("");
+
+    try {
+      const res = await fetch(`/api/submissions?id=${encodeURIComponent(deleteConfirmSub.id)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setSubmissions((prev) => prev.filter((s) => s.id !== deleteConfirmSub.id));
+        if (selectedSub && selectedSub.id === deleteConfirmSub.id) {
+          setSelectedSub(null);
+        }
+
+        // Synchronize localStorage fallback
+        if (typeof window !== "undefined") {
+          try {
+            const stored = localStorage.getItem("goat_assets_submissions");
+            if (stored) {
+              const parsed: Submission[] = JSON.parse(stored);
+              const updated = parsed.filter((s) => s.id !== deleteConfirmSub.id);
+              localStorage.setItem("goat_assets_submissions", JSON.stringify(updated));
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        setDeleteConfirmSub(null);
+      } else {
+        setDeleteError(data.error || "Failed to delete submission.");
+      }
+    } catch (err: any) {
+      setDeleteError(err.message || "Network error while deleting submission.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   // Filter submissions by search and question responses
   const filteredSubmissions = useMemo(() => {
@@ -146,6 +269,163 @@ export default function AdminPage() {
     setFilterTimeline("ALL");
   };
 
+  // Initial loading state while checking session cookie
+  if (isAuthenticated === null) {
+    return (
+      <div className={styles.sessionLoadingScreen}>
+        <div className={styles.sessionSpinner} />
+        <span>Verifying Goat Assets admin session...</span>
+      </div>
+    );
+  }
+
+  // Render Login Card if unauthenticated
+  if (!isAuthenticated) {
+    return (
+      <div className={styles.loginWrapper}>
+        <div className={styles.loginCard}>
+          <Image
+            src="/Goatlogo.png"
+            alt="Goat Assets Dubai"
+            width={170}
+            height={52}
+            priority
+            className={styles.loginLogo}
+          />
+
+          <span className={styles.loginSecurityBadge}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Secure Admin Portal
+          </span>
+
+          <h1 className={styles.loginTitle}>Admin Sign In</h1>
+          <p className={styles.loginSubtitle}>
+            Enter your credentials to access the Dubai real estate investor dashboard.
+          </p>
+
+          <form onSubmit={handleLogin} className={styles.loginForm}>
+            {loginError && (
+              <div className={styles.loginErrorAlert}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <span>{loginError}</span>
+              </div>
+            )}
+
+            <div className={styles.loginFieldGroup}>
+              <label htmlFor="admin-email" className={styles.loginFieldLabel}>
+                Username / Email
+              </label>
+              <div className={styles.loginInputWrapper}>
+                <span className={styles.loginInputIcon}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </span>
+                <input
+                  id="admin-email"
+                  type="email"
+                  required
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  placeholder="adminassets@gmail.com"
+                  className={styles.loginInput}
+                  autoComplete="username"
+                />
+              </div>
+            </div>
+
+            <div className={styles.loginFieldGroup}>
+              <label htmlFor="admin-password" className={styles.loginFieldLabel}>
+                Password
+              </label>
+              <div className={styles.loginInputWrapper}>
+                <span className={styles.loginInputIcon}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </span>
+                <input
+                  id="admin-password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className={styles.loginInput}
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={styles.passwordToggleBtn}
+                  title={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className={styles.loginSubmitBtn}
+            >
+              {isLoggingIn ? (
+                <>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    className={styles.spinning}
+                  >
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                  </svg>
+                  <span>Authenticating...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In to Dashboard</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className={styles.loginFooterNote}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>Protected with bcrypt encryption • Goat Assets Dubai</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.adminWrapper}>
       {/* HEADER */}
@@ -205,6 +485,20 @@ export default function AdminPage() {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             Export CSV
+          </button>
+
+          <button
+            type="button"
+            className={styles.logoutBtn}
+            onClick={handleLogout}
+            title="Sign out of Admin Portal"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Sign Out
           </button>
         </div>
       </header>
@@ -441,6 +735,24 @@ export default function AdminPage() {
                           >
                             View
                           </button>
+
+                          {/* Delete Submission Button */}
+                          <button
+                            type="button"
+                            className={`${styles.actionIconBtn} ${styles.actionIconBtnDelete}`}
+                            onClick={() => {
+                              setDeleteError("");
+                              setDeleteConfirmSub(sub);
+                            }}
+                            title="Delete Submission"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="3 6 5 6 21 6" />
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                              <line x1="10" y1="11" x2="10" y2="17" />
+                              <line x1="14" y1="11" x2="14" y2="17" />
+                            </svg>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -516,7 +828,7 @@ export default function AdminPage() {
             </div>
 
             <div className={styles.modalFooter}>
-              <div style={{ display: "flex", gap: "0.75rem" }}>
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
                 <a
                   href={`https://wa.me/${selectedSub.phone.replace(/[^0-9]/g, "")}?text=Hello%20${encodeURIComponent(selectedSub.fullName)},%20this%20is%20Goat%20Assets%20Dubai.`}
                   target="_blank"
@@ -533,6 +845,22 @@ export default function AdminPage() {
                 >
                   Send Email
                 </a>
+                <button
+                  type="button"
+                  className={styles.modalDeleteBtn}
+                  onClick={() => {
+                    const subToDelete = selectedSub;
+                    setDeleteError("");
+                    setDeleteConfirmSub(subToDelete);
+                  }}
+                  title="Delete this lead"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                  Delete
+                </button>
               </div>
               <button
                 type="button"
@@ -540,6 +868,79 @@ export default function AdminPage() {
                 onClick={() => setSelectedSub(null)}
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DELETE CONFIRMATION MODAL */}
+      {deleteConfirmSub && (
+        <div className={styles.modalOverlay} onClick={() => !isDeleting && setDeleteConfirmSub(null)}>
+          <div className={styles.deleteModalCard} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.deleteModalIcon}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
+            </div>
+
+            <h3 className={styles.deleteModalTitle}>Delete Submission</h3>
+            <p className={styles.deleteModalText}>
+              Are you sure you want to permanently delete this submission? This action cannot be undone.
+            </p>
+
+            <div className={styles.deleteTargetCard}>
+              <div className={styles.deleteTargetName}>{deleteConfirmSub.fullName}</div>
+              <div className={styles.deleteTargetMeta}>
+                <span>{deleteConfirmSub.email}</span>
+                <span>•</span>
+                <span>{deleteConfirmSub.phone}</span>
+              </div>
+              <div className={styles.deleteTargetMeta} style={{ marginTop: "0.2rem", fontSize: "0.78rem" }}>
+                <span>ID: {deleteConfirmSub.id}</span>
+                <span>•</span>
+                <span>Submitted: {deleteConfirmSub.submittedAt}</span>
+              </div>
+            </div>
+
+            {deleteError && (
+              <div className={styles.deleteErrorAlert}>
+                {deleteError}
+              </div>
+            )}
+
+            <div className={styles.deleteModalActions}>
+              <button
+                type="button"
+                className={styles.deleteCancelBtn}
+                onClick={() => setDeleteConfirmSub(null)}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={styles.deleteConfirmBtn}
+                onClick={handleDeleteSubmission}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <>
+                    <span className={styles.loginSpinner} style={{ width: 16, height: 16 }} />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 16, height: 16 }}>
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    </svg>
+                    <span>Yes, Delete</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

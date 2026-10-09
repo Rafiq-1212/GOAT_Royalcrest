@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Goat Assets Dubai
 
-## Getting Started
+A modern, luxury real estate investment platform organized as a multi-app workspace with a lead-generation funnel and an administrative portal.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📁 Project Structure
+
+```
+GoatAssetsDubai/
+├── apps/
+│   ├── funnel-app/       # Public landing page & multi-step questionnaire funnel (Port 3000)
+│   └── admin-app/        # Protected admin portal with bcrypt auth & lead management (Port 3001)
+├── prisma/               # Shared PostgreSQL database schema & migrations (Neon DB)
+├── package.json          # Workspace manager scripts
+└── .env.example          # Environment variables template
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Quick Start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Install Dependencies
+```bash
+npm install
+```
 
-## Learn More
+### 2. Run Applications
 
-To learn more about Next.js, take a look at the following resources:
+- **Run Funnel Landing Page (Port 3000)**:
+  ```bash
+  npm run dev:funnel
+  # or
+  npm run dev
+  ```
+  Accessible at: [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Run Admin Portal (Port 3001)**:
+  ```bash
+  npm run dev:admin
+  ```
+  Accessible at: [http://localhost:3001](http://localhost:3001) or [http://localhost:3000/admin](http://localhost:3000/admin) (proxied).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔐 Admin Portal Credentials
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Username / Email**: `adminassets@gmail.com`
+- **Password**: `goatassetsdubai`
+- **Security**: Passwords verified via bcrypt (`bcryptjs`), sessions managed via secure HTTP-only cookies.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛠️ Build Commands
+
+- Build both applications: `npm run build`
+- Build Funnel app only: `npm run build:funnel`
+- Build Admin app only: `npm run build:admin`

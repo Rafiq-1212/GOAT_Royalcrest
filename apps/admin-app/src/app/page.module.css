@@ -607,3 +607,454 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* AUTHENTICATION & LOGIN PORTAL */
+.loginWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 12% 18%, rgba(186, 140, 77, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 88% 80%, rgba(196, 155, 93, 0.16) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(186, 140, 77, 0.06) 0%, transparent 60%);
+  position: relative;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(246, 241, 229, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
+  border-radius: 28px;
+  padding: 2.75rem 2.25rem 2.25rem;
+  box-shadow: 0 25px 60px -15px rgba(18, 23, 34, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  animation: modalFadeIn 0.3s ease;
+}
+
+.loginLogo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 1.25rem;
+}
+
+.loginSecurityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.75rem;
+  background: var(--gold-soft-bg);
+  color: var(--gold-light);
+  border: 1px solid var(--border-gold);
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.loginSecurityBadge svg {
+  width: 13px;
+  height: 13px;
+}
+
+.loginTitle {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.02em;
+}
+
+.loginSubtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.85rem;
+  line-height: 1.5;
+}
+
+.loginForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.loginFieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: left;
+}
+
+.loginFieldLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.loginInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.loginInputIcon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.loginInputIcon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.loginInput {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.85rem 1rem 0.85rem 2.65rem;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.loginInput:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(186, 140, 77, 0.18);
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 0.85rem;
+  color: var(--text-muted);
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.passwordToggleBtn:hover {
+  color: var(--text-primary);
+}
+
+.passwordToggleBtn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.loginErrorAlert {
+  background: #fdf2f2;
+  border: 1px solid #f8b4b4;
+  color: #9b1c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+  animation: fadeIn 0.2s ease;
+}
+
+.loginErrorAlert svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.loginSubmitBtn {
+  width: 100%;
+  background: var(--gold-primary);
+  color: #ffffff;
+  padding: 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(186, 140, 77, 0.35);
+  transition: all 0.25s ease;
+  margin-top: 0.35rem;
+  cursor: pointer;
+}
+
+.loginSubmitBtn:hover:not(:disabled) {
+  background: var(--gold-hover);
+  box-shadow: 0 8px 22px rgba(186, 140, 77, 0.45);
+}
+
+.loginSubmitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.loginSubmitBtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.loginFooterNote {
+  margin-top: 1.65rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.loginFooterNote svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold-primary);
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.52rem 0.95rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #993333;
+  background: rgba(220, 53, 69, 0.06);
+  border: 1px solid rgba(220, 53, 69, 0.18);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background: rgba(220, 53, 69, 0.12);
+  border-color: rgba(220, 53, 69, 0.3);
+  color: #801f1f;
+}
+
+.logoutBtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.sessionLoadingScreen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.sessionSpinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid rgba(186, 140, 77, 0.2);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* DELETE BUTTON & CONFIRMATION MODAL */
+.actionIconBtnDelete:hover {
+  color: #dc2626;
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.modalDeleteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #dc2626;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalDeleteBtn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.modalDeleteBtn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.deleteModalCard {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  padding: 2.25rem 2rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: modalFadeIn 0.25s ease;
+}
+
+.deleteModalIcon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 0 8px rgba(254, 226, 226, 0.5);
+}
+
+.deleteModalIcon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.deleteModalTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.01em;
+}
+
+.deleteModalText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.deleteTargetCard {
+  width: 100%;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.9rem 1.15rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.deleteTargetName {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.deleteTargetMeta {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deleteModalActions {
+  width: 100%;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.deleteCancelBtn {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: #f7f4ee;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deleteCancelBtn:hover:not(:disabled) {
+  background: #ede6da;
+}
+
+.deleteConfirmBtn {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+  transition: all 0.2s ease;
+}
+
+.deleteConfirmBtn:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+}
+
+.deleteConfirmBtn:disabled,
+.deleteCancelBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.deleteErrorAlert {
+  width: 100%;
+  margin-bottom: 1.15rem;
+  padding: 0.65rem 0.85rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 0.84rem;
+  text-align: left;
+}
+
+
