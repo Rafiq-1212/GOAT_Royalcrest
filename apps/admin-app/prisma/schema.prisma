@@ -1,0 +1,23 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Submission {
+  id           String   @id @default(cuid())
+  fullName     String
+  email        String
+  phone        String
+  buyingIntent String   // Q1: Why are you buying? (To live in, To invest, Other / Not sure)
+  propertyType String   // Q2: Which property type? (Apartment, Villa, Townhouse, Other)
+  budget       String   // Q3: What's your budget? (Under AED 1M, AED 1-2M, etc.)
+  timeline     String   // Q4: When do you want to buy? (Within 3 months, etc.)
+  createdAt    DateTime @default(now())
+
+  @@map("submissions")
+}

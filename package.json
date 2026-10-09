@@ -12,6 +12,7 @@
     "build:admin": "npm run build --workspace=admin-app",
     "build:funnel": "npm run build --workspace=funnel-app",
     "build": "npm run build --workspaces",
+    "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
   },

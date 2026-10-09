@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyCredentials, createSessionToken, SESSION_COOKIE_NAME, ADMIN_USERNAME } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     let body: any;

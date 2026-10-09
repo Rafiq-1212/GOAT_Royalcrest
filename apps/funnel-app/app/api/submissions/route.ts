@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/submissions - Retrieve all questionnaire submissions
 export async function GET() {
   try {

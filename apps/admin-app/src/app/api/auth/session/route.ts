@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySessionToken, SESSION_COOKIE_NAME, ADMIN_USERNAME } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const sessionCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
