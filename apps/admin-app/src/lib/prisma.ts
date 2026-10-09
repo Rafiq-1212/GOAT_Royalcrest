@@ -29,20 +29,16 @@ const globalForPrisma = globalThis as unknown as {
   lastDbUrl: string | undefined;
 };
 
-function createPrismaClient(): PrismaClient {
-  const options: Record<string, any> = {
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  };
-  if (dbUrl) {
-    options.datasourceUrl = dbUrl;
-  }
-  return new PrismaClient(options);
+if (dbUrl) {
+  process.env.DATABASE_URL = dbUrl;
 }
 
 export const prisma =
   globalForPrisma.prisma && globalForPrisma.lastDbUrl === dbUrl
     ? globalForPrisma.prisma
-    : createPrismaClient();
+    : new PrismaClient({
+        log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+      });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
