@@ -1,0 +1,711 @@
+/* Survey Page Container */
+.surveyContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 12% 18%, rgba(186, 140, 77, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 88% 65%, rgba(186, 140, 77, 0.07) 0%, transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(186, 140, 77, 0.04) 0%, transparent 40%);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Funnel Ambient Background with Dubai Skyline */
+.funnelBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.funnelBgImage {
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0.62;
+}
+
+.funnelBgOverlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to bottom, 
+      rgba(250, 246, 238, 0.32) 0%, 
+      rgba(250, 246, 238, 0.1) 30%, 
+      rgba(246, 237, 219, 0.22) 65%, 
+      rgba(250, 246, 238, 0.65) 100%
+    ),
+    radial-gradient(circle at 50% 35%, rgba(214, 180, 126, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Header */
+.header {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brandLogo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.brandLogo:hover {
+  transform: scale(1.02);
+}
+
+/* Step Progress Indicator */
+.progressGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.progressTextRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 190px;
+  font-size: 0.82rem;
+}
+
+.stepLabel {
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.percentLabel {
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+.progressBarTrack {
+  width: 190px;
+  height: 4px;
+  background-color: #e5dccb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: var(--gold-accent);
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Main Content Section */
+.mainContent {
+  position: relative;
+  z-index: 1;
+  max-width: 1060px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card Framing Question and Options in Golden Cream */
+.surveyCard {
+  background: rgba(246, 241, 229, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 217, 198, 0.85);
+  border-radius: 32px;
+  padding: 3.5rem 3.5rem 3rem;
+  box-shadow: 0 25px 65px -15px rgba(18, 23, 34, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  width: 100%;
+  max-width: 980px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.stepIndicator {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.questionHeading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2.25rem;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+/* Option Card Grids */
+.gridStep1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.gridStep2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.gridStep3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.gridStep3Full {
+  grid-column: 1 / -1;
+}
+
+.gridStep4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+/* Option Card in Golden Cream */
+.optionCard {
+  position: relative;
+  background: rgba(250, 245, 234, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid #e5dccb;
+  border-radius: 20px;
+  padding: 2.25rem 1.25rem 1.75rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 145px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.optionCard:hover {
+  background: #fdfaf3;
+  border-color: var(--gold-accent);
+  box-shadow: 0 12px 28px -6px var(--gold-glow);
+}
+
+.optionCard:active {
+  transform: scale(0.98);
+}
+
+.optionCardSelected {
+  border-color: var(--gold-accent);
+  background: #fdfaf3;
+  box-shadow: 0 0 0 1.5px var(--gold-accent), 0 12px 28px -6px var(--gold-glow);
+}
+
+/* Radio circle on top-left */
+.radioCircle {
+  position: absolute;
+  top: 1.15rem;
+  left: 1.15rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #d4cbb8;
+  background-color: #faf5ea;
+  transition: all 0.2s ease;
+}
+
+.radioCircleSelected {
+  border-color: var(--gold-accent);
+  background-color: var(--gold-accent);
+  box-shadow: inset 0 0 0 3px #faf5ea;
+}
+
+/* Icon */
+.cardIcon {
+  width: 34px;
+  height: 34px;
+  color: var(--gold-accent);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.optionCard:hover .cardIcon {
+  transform: scale(1.1);
+}
+
+.cardIcon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.8;
+}
+
+.cardLabel {
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+
+/* Action row */
+.actionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.backBtn {
+  background: #faf5ea;
+  border: 1px solid var(--border-card);
+  border-radius: 9999px;
+  padding: 0.65rem 1.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.backBtn:hover {
+  background: #f0e9d9;
+  color: var(--text-primary);
+  border-color: var(--gold-border);
+}
+
+.hintText {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Step 5 Form Centered */
+.step5Wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.formContainer {
+  max-width: 680px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0 auto;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: left;
+}
+
+.inputLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.textInput {
+  background-color: #faf5ea;
+  border: 1.5px solid var(--border-card);
+  border-radius: 12px;
+  padding: 0.95rem 1.15rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.textInput:focus {
+  border-color: var(--gold-accent);
+  background-color: #fdfaf3;
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.phoneInputContainer {
+  display: flex;
+  align-items: stretch;
+  background-color: #faf5ea;
+  border: 1.5px solid var(--border-card);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.phoneInputContainer:focus-within {
+  border-color: var(--gold-accent);
+  background-color: #fdfaf3;
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.countryCodeWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(186, 140, 77, 0.08);
+  border-right: 1.5px solid var(--border-card);
+  flex-shrink: 0;
+}
+
+.countryCodeSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0.95rem 1.65rem 0.95rem 0.95rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  max-width: 155px;
+  font-family: inherit;
+}
+
+.countryCodeSelect option {
+  background-color: #faf6ee;
+  color: #121722;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+}
+
+.selectChevron {
+  position: absolute;
+  right: 0.55rem;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  color: var(--gold-accent);
+}
+
+.phoneInputField {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  padding: 0.95rem 1.15rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}
+
+.phoneInputField::placeholder {
+  color: var(--text-muted);
+  opacity: 0.65;
+}
+
+.inputError {
+  border-color: #c94a4a !important;
+  background-color: #fef7f7 !important;
+  box-shadow: 0 0 0 3px rgba(201, 74, 74, 0.18) !important;
+}
+
+.fieldErrorText {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #c94a4a;
+  font-size: 0.78rem;
+  font-weight: 550;
+  margin-top: 0.35rem;
+  text-align: left;
+  animation: fadeIn 0.2s ease;
+}
+
+.fieldErrorText svg {
+  flex-shrink: 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  cursor: pointer;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.checkboxInput {
+  margin-top: 0.2rem;
+  accent-color: var(--gold-accent);
+  width: 16px;
+  height: 16px;
+}
+
+.submitBtn {
+  background: var(--gold-accent);
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1.15rem;
+  border-radius: 9999px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-gold);
+  margin-top: 1rem;
+}
+
+.submitBtn:hover {
+  background: var(--gold-hover);
+  box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+}
+
+.assuranceStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Success Confirmation View */
+.successCard {
+  max-width: 640px;
+  background: #f6f1e5;
+  border: 1px solid var(--border-card);
+  border-radius: 30px;
+  padding: 3.5rem 2.75rem;
+  text-align: center;
+  box-shadow: 0 25px 65px -15px rgba(18, 23, 34, 0.08);
+  margin: 0 auto;
+}
+
+.successBadge {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #eee6d6;
+  border: 2px solid var(--gold-border);
+  color: var(--gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 6px 20px var(--gold-glow);
+}
+
+.successBadge svg {
+  width: 34px;
+  height: 34px;
+}
+
+.successTitle {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.successDesc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+
+.summaryBox {
+  background: #faf5ea;
+  border: 1px solid var(--gold-border);
+  border-radius: 18px;
+  padding: 1.35rem 1.65rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  font-size: 0.88rem;
+  border-bottom: 1px solid #e7ded0;
+}
+
+.summaryItem:last-child {
+  border-bottom: none;
+}
+
+.summaryKey {
+  color: var(--text-muted);
+}
+
+.summaryVal {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.returnBtn {
+  background: var(--gold-accent);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 1rem 2.4rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-gold);
+}
+
+.returnBtn:hover {
+  background: var(--gold-hover);
+  box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 1.75rem 2rem;
+  text-align: center;
+  border-top: 1px solid #e6decb;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  background-color: rgba(250, 246, 238, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.footer a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .gridStep2,
+  .gridStep4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1.5rem 1.25rem 1rem;
+  }
+  .progressTextRow,
+  .progressBarTrack {
+    width: 140px;
+  }
+  .mainContent {
+    padding: 1rem 1rem 2.5rem;
+  }
+  .surveyCard {
+    padding: 2.25rem 1.25rem 1.75rem;
+    border-radius: 24px;
+  }
+  .gridStep1,
+  .gridStep2,
+  .gridStep3,
+  .gridStep4 {
+    grid-template-columns: 1fr;
+  }
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  .actionRow {
+    flex-direction: column-reverse;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+  .successCard {
+    padding: 2.25rem 1.5rem;
+  }
+  .countryCodeSelect {
+    max-width: 125px;
+    font-size: 0.85rem;
+    padding: 0.85rem 1.35rem 0.85rem 0.75rem;
+  }
+  .phoneInputField {
+    padding: 0.85rem 0.85rem;
+    font-size: 0.9rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

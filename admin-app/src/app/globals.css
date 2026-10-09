@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-main: #faf6ee;
+  --bg-surface: #f6f1e5;
+  --bg-card: #f6f1e5;
+  --bg-card-hover: #efe8da;
+  --border-color: #e6decb;
+  --border-gold: #dfcfb7;
+  
+  --gold-primary: #ba8c4d;
+  --gold-hover: #a67b3e;
+  --gold-light: #8e682e;
+  --gold-soft-bg: rgba(186, 140, 77, 0.12);
+  --gold-glow: rgba(186, 140, 77, 0.25);
+  
+  --text-primary: #121722;
+  --text-secondary: #5f687a;
+  --text-muted: #8892a4;
+
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
