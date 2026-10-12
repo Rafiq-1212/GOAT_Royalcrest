@@ -41,9 +41,11 @@
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.headerCard:hover {
-  box-shadow: 0 16px 40px -8px rgba(186, 140, 77, 0.18);
-  border-color: rgba(186, 140, 77, 0.35);
+@media (hover: hover) and (pointer: fine) {
+  .headerCard:hover {
+    box-shadow: 0 16px 40px -8px rgba(186, 140, 77, 0.18);
+    border-color: rgba(186, 140, 77, 0.35);
+  }
 }
 
 .brand {
@@ -60,8 +62,10 @@
   transition: transform 0.2s ease;
 }
 
-.brandLogo:hover {
-  transform: scale(1.02);
+@media (hover: hover) and (pointer: fine) {
+  .brandLogo:hover {
+    transform: scale(1.02);
+  }
 }
 
 .headerCtaBtn {
@@ -82,9 +86,11 @@
   gap: 0.4rem;
 }
 
-.headerCtaBtn:hover {
-  background: var(--gold-hover);
-  box-shadow: 0 10px 24px -4px rgba(186, 140, 77, 0.45);
+@media (hover: hover) and (pointer: fine) {
+  .headerCtaBtn:hover {
+    background: var(--gold-hover);
+    box-shadow: 0 10px 24px -4px rgba(186, 140, 77, 0.45);
+  }
 }
 
 /* Hero Background with Left Clear & Right Creamy Golden Gradient */
@@ -211,8 +217,10 @@
   transition: all 0.2s ease;
 }
 
-.pointItem:hover {
-  background: rgba(186, 140, 77, 0.08);
+@media (hover: hover) and (pointer: fine) {
+  .pointItem:hover {
+    background: rgba(186, 140, 77, 0.08);
+  }
 }
 
 .pointCheck {
@@ -230,11 +238,13 @@
   transition: transform 0.2s ease;
 }
 
-.pointItem:hover .pointCheck {
-  transform: scale(1.1);
-  background: var(--gold-accent);
-  color: #ffffff;
-  border-color: var(--gold-accent);
+@media (hover: hover) and (pointer: fine) {
+  .pointItem:hover .pointCheck {
+    transform: scale(1.1);
+    background: var(--gold-accent);
+    color: #ffffff;
+    border-color: var(--gold-accent);
+  }
 }
 
 .pointCheck svg {
@@ -272,9 +282,11 @@
   border: none;
 }
 
-.primaryBtn:hover {
-  background: var(--gold-hover);
-  box-shadow: 0 14px 30px -4px rgba(186, 140, 77, 0.5);
+@media (hover: hover) and (pointer: fine) {
+  .primaryBtn:hover {
+    background: var(--gold-hover);
+    box-shadow: 0 14px 30px -4px rgba(186, 140, 77, 0.5);
+  }
 }
 
 .primaryBtn svg {
@@ -304,19 +316,21 @@
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.imageCard:hover {
-  box-shadow: 0 36px 85px -18px rgba(186, 140, 77, 0.28), 0 15px 35px rgba(18, 23, 34, 0.1);
-  border-color: rgba(186, 140, 77, 0.4);
+@media (hover: hover) and (pointer: fine) {
+  .imageCard:hover {
+    box-shadow: 0 36px 85px -18px rgba(186, 140, 77, 0.28), 0 15px 35px rgba(18, 23, 34, 0.1);
+    border-color: rgba(186, 140, 77, 0.4);
+  }
+
+  .imageCard:hover .cardImage {
+    transform: scale(1.04);
+  }
 }
 
 .cardImage {
   object-fit: cover;
   object-position: center;
   transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.imageCard:hover .cardImage {
-  transform: scale(1.04);
 }
 
 
@@ -412,36 +426,43 @@
 
 @media (max-width: 768px) {
   .pageWrapper {
-    height: 100vh;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     justify-content: flex-start;
   }
 
   .headerWrapper {
-    position: relative;
+    position: sticky;
     top: 0;
-    padding: 0.55rem 1rem 0;
+    padding: max(0.5rem, env(safe-area-inset-top)) max(0.85rem, env(safe-area-inset-right)) 0.35rem max(0.85rem, env(safe-area-inset-left));
     flex-shrink: 0;
+    z-index: 50;
   }
 
   .headerCard {
-    padding: 0.35rem 0.75rem 0.35rem 1.05rem;
-    gap: 0.85rem;
+    padding: 0.42rem 0.75rem 0.42rem 1.1rem;
+    gap: 0.75rem;
     box-shadow: 0 4px 16px rgba(18, 23, 34, 0.05);
   }
 
   .brandLogo {
     height: 38px;
+    max-width: 120px;
     width: auto;
   }
 
   .headerCtaBtn {
-    padding: 0.52rem 1.15rem;
-    font-size: 0.72rem;
+    padding: 0.55rem 1.05rem;
+    font-size: 0.74rem;
     letter-spacing: 0.06em;
-    gap: 0.35rem;
+    gap: 0.38rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+    border-radius: 9999px;
   }
 
   .heroBackground {
@@ -460,10 +481,10 @@
   .heroBgOverlay {
     background: 
       linear-gradient(to bottom, 
-        rgba(250, 246, 238, 0.85) 0%, 
-        rgba(250, 246, 238, 0.72) 40%, 
-        rgba(246, 238, 224, 0.8) 75%, 
-        rgba(250, 246, 238, 0.96) 100%
+        rgba(250, 246, 238, 0.88) 0%, 
+        rgba(250, 246, 238, 0.75) 40%, 
+        rgba(246, 238, 224, 0.82) 75%, 
+        rgba(250, 246, 238, 0.98) 100%
       ),
       radial-gradient(circle at 50% 25%, rgba(186, 140, 77, 0.08) 0%, transparent 65%);
   }
@@ -471,72 +492,76 @@
   .heroSection {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     flex: 1;
-    min-height: 0;
-    padding: 0.45rem 1.25rem 0.85rem;
-    gap: 0;
+    min-height: auto;
+    padding: 0.85rem max(1.25rem, env(safe-area-inset-right)) max(1.75rem, calc(env(safe-area-inset-bottom) + 1rem)) max(1.25rem, env(safe-area-inset-left));
     width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
   }
 
   .heroLeft {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    gap: 0.65rem;
+    gap: 1.15rem;
   }
 
   .heroTitle {
-    font-size: clamp(1.48rem, 5.8vw, 1.95rem);
-    line-height: 1.15;
-    letter-spacing: -0.025em;
+    font-size: clamp(2rem, 7.8vw, 2.5rem);
+    line-height: 1.14;
+    letter-spacing: -0.028em;
     margin: 0;
+    font-weight: 600;
   }
 
   .desktopBr {
     display: none;
   }
 
-  /* Mobile Card Image Placed Directly Below Heading with Increased Scaling */
+  /* Mobile Card Image Placed Directly Below Heading */
   .mobileImageCard {
     display: block;
     width: 100%;
-    height: clamp(145px, 21vh, 185px);
-    margin: 0.1rem 0 0.05rem;
+    height: clamp(205px, 27vh, 255px);
+    margin: 0.15rem 0;
     flex-shrink: 0;
+    border-radius: 20px;
+    overflow: hidden;
   }
 
   .mobileImageCard .glassOverlayBottomLeft {
     position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
+    bottom: 0.65rem;
+    left: 0.65rem;
     z-index: 10;
-    background: rgba(18, 23, 34, 0.84);
+    background: rgba(18, 23, 34, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
-    padding: 0.32rem 0.68rem;
-    border-radius: 12px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 0.08rem;
+    gap: 0.1rem;
     color: #ffffff;
+    max-width: 48%;
   }
 
   .mobileImageCard .glassStatVal {
     font-family: var(--font-heading);
-    font-size: 0.82rem;
+    font-size: 0.98rem;
     font-weight: 700;
     color: #f6d498;
     line-height: 1.1;
   }
 
   .mobileImageCard .glassStatLabel {
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     color: #cbd5e1;
     font-weight: 500;
     line-height: 1.1;
@@ -544,67 +569,177 @@
 
   .mobileImageCard .glassOverlayBottomRight {
     position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
+    bottom: 0.65rem;
+    right: 0.65rem;
     z-index: 10;
     background: rgba(246, 241, 229, 0.94);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid var(--border-card);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    padding: 0.32rem 0.68rem;
-    border-radius: 12px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 0.08rem;
+    gap: 0.1rem;
     text-align: right;
+    max-width: 48%;
   }
 
   .mobileImageCard .glassStatRightVal {
     font-family: var(--font-heading);
-    font-size: 0.82rem;
+    font-size: 0.98rem;
     font-weight: 700;
     color: var(--gold-dark);
     line-height: 1.1;
   }
 
   .mobileImageCard .glassStatRightLabel {
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     color: var(--text-secondary);
     font-weight: 500;
     line-height: 1.1;
   }
 
   .heroSubtitle {
-    font-size: clamp(0.78rem, 2.7vw, 0.86rem);
-    line-height: 1.4;
+    font-size: clamp(0.92rem, 3.2vw, 1.02rem);
+    line-height: 1.6;
     margin: 0;
     max-width: 100%;
+    color: var(--text-secondary);
   }
 
-  /* 2-Column Points Grid on mobile with increased readable scale */
+  /* 2-Column Points Grid on mobile */
   .pointsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.32rem 0.75rem;
-    margin: 0.1rem 0 0.15rem;
+    gap: 0.75rem 1.1rem;
+    margin: 0.35rem 0 0.5rem;
     width: 100%;
     max-width: 100%;
   }
 
   .pointItem {
-    padding: 0.1rem 0.15rem;
-    font-size: clamp(0.74rem, 2.6vw, 0.82rem);
-    gap: 0.42rem;
+    padding: 0.25rem 0;
+    font-size: clamp(0.88rem, 3vw, 0.96rem);
+    gap: 0.65rem;
     border-radius: 6px;
     align-items: flex-start;
+    line-height: 1.38;
+  }
+
+  .pointCheck {
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pointCheck svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .ctaWrapper {
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 0;
+  }
+
+  .primaryBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.12rem 2.2rem;
+    font-size: 0.96rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    gap: 0.65rem;
+    border-radius: 9999px;
+    -webkit-appearance: none;
+    box-shadow: 0 6px 20px rgba(186, 140, 77, 0.32);
+  }
+
+  .heroRight {
+    display: none;
+  }
+
+  /* Explicitly remove all hover effects on mobile */
+  .headerCard:hover {
+    box-shadow: 0 4px 16px rgba(18, 23, 34, 0.05);
+    border-color: var(--border-card);
+  }
+
+  .brandLogo:hover {
+    transform: none;
+  }
+
+  .headerCtaBtn:hover {
+    background: var(--gold-accent);
+    box-shadow: var(--shadow-gold);
+    transform: none;
+  }
+
+  .pointItem:hover {
+    background: transparent;
+  }
+
+  .pointItem:hover .pointCheck {
+    transform: none;
+    background: var(--gold-light);
+    color: var(--gold-accent);
+    border-color: var(--gold-border);
+  }
+
+  .primaryBtn:hover {
+    background: var(--gold-accent);
+    box-shadow: var(--shadow-gold);
+    transform: none;
+  }
+}
+
+/* Compact scaling for genuinely short mobile viewports (e.g. landscape or height <= 620px) */
+@media (max-height: 620px) {
+  .heroSection {
+    padding: 0.4rem max(1rem, env(safe-area-inset-right)) 1rem max(1rem, env(safe-area-inset-left));
+  }
+
+  .heroLeft {
+    gap: 0.65rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.5rem, 5.5vw, 1.85rem);
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .mobileImageCard {
+    height: clamp(140px, 20vh, 175px);
+    margin: 0.1rem 0;
+  }
+
+  .heroSubtitle {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .pointsGrid {
+    gap: 0.4rem 0.75rem;
+    margin: 0.15rem 0;
+  }
+
+  .pointItem {
+    font-size: 0.8rem;
+    padding: 0.1rem 0;
+    gap: 0.45rem;
   }
 
   .pointCheck {
     width: 18px;
     height: 18px;
-    flex-shrink: 0;
-    margin-top: 1px;
   }
 
   .pointCheck svg {
@@ -613,77 +748,12 @@
   }
 
   .ctaWrapper {
-    width: 100%;
-    margin-top: 0.3rem;
+    margin-top: 0.5rem;
   }
 
   .primaryBtn {
-    padding: 0.82rem 2rem;
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-    gap: 0.6rem;
-  }
-
-  .heroRight {
-    display: none;
-  }
-}
-
-/* Extra compact scaling for shorter mobile viewports (<= 480px width or <= 700px height) */
-@media (max-width: 480px) and (max-height: 700px) {
-  .heroSection {
-    padding: 0.3rem 1rem 0.55rem;
-  }
-
-  .heroLeft {
-    gap: 0.45rem;
-  }
-
-  .heroTitle {
-    font-size: clamp(1.35rem, 5.2vw, 1.65rem);
-    line-height: 1.14;
-    margin: 0;
-  }
-
-  .mobileImageCard {
-    height: clamp(120px, 17vh, 142px);
-    margin: 0.05rem 0;
-  }
-
-  .heroSubtitle {
-    font-size: 0.72rem;
-    line-height: 1.32;
-    margin: 0;
-  }
-
-  .pointsGrid {
-    gap: 0.22rem 0.55rem;
-    margin: 0.05rem 0;
-  }
-
-  .pointItem {
-    font-size: 0.72rem;
-    padding: 0.06rem 0.12rem;
-    gap: 0.35rem;
-  }
-
-  .pointCheck {
-    width: 16px;
-    height: 16px;
-  }
-
-  .pointCheck svg {
-    width: 9px;
-    height: 9px;
-  }
-
-  .ctaWrapper {
-    margin-top: 0.2rem;
-  }
-
-  .primaryBtn {
-    padding: 0.72rem 1.65rem;
-    font-size: 0.76rem;
+    padding: 0.88rem 1.6rem;
+    font-size: 0.86rem;
   }
 }
 

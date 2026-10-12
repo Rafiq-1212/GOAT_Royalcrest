@@ -34,7 +34,7 @@ export default function Home() {
             className={styles.headerCtaBtn}
             onClick={() => setShowSurvey(true)}
           >
-            <span>Invest in Dubai</span>
+            <span>Start Invest in Dubai</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M7 17L17 7M17 7H7M17 7V17" />
             </svg>
@@ -151,7 +151,7 @@ export default function Home() {
               className={styles.primaryBtn}
               onClick={() => setShowSurvey(true)}
             >
-              <span>Invest in Dubai</span>
+              <span>Start Invest in Dubai</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />

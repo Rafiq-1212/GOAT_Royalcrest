@@ -1,6 +1,7 @@
 /* Survey Page Container */
 .surveyContainer {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,6 +15,7 @@
   animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Funnel Ambient Background with Dubai Skyline */
@@ -61,6 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .brand {
@@ -77,8 +80,10 @@
   transition: transform 0.2s ease;
 }
 
-.brandLogo:hover {
-  transform: scale(1.02);
+@media (hover: hover) and (pointer: fine) {
+  .brandLogo:hover {
+    transform: scale(1.02);
+  }
 }
 
 /* Step Progress Indicator */
@@ -131,8 +136,8 @@
   max-width: 1060px;
   width: 100%;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 3.5rem;
-  flex: 1;
+  padding: 1.5rem 1.5rem 2.5rem;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -297,10 +302,12 @@
   gap: 0.4rem;
 }
 
-.backBtn:hover {
-  background: #f0e9d9;
-  color: var(--text-primary);
-  border-color: var(--gold-border);
+@media (hover: hover) and (pointer: fine) {
+  .backBtn:hover {
+    background: #f0e9d9;
+    color: var(--text-primary);
+    border-color: var(--gold-border);
+  }
 }
 
 .hintText {
@@ -501,9 +508,11 @@
   margin-top: 1rem;
 }
 
-.submitBtn:hover {
-  background: var(--gold-hover);
-  box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+@media (hover: hover) and (pointer: fine) {
+  .submitBtn:hover {
+    background: var(--gold-hover);
+    box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+  }
 }
 
 .assuranceStrip {
@@ -608,21 +617,26 @@
   box-shadow: var(--shadow-gold);
 }
 
-.returnBtn:hover {
-  background: var(--gold-hover);
-  box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+@media (hover: hover) and (pointer: fine) {
+  .returnBtn:hover {
+    background: var(--gold-hover);
+    box-shadow: 0 12px 28px -4px rgba(186, 140, 77, 0.45);
+  }
 }
 
 /* Footer */
 .footer {
   position: relative;
   z-index: 1;
-  padding: 1.75rem 2rem;
+  flex-shrink: 0;
+  margin-top: auto;
+  width: 100%;
+  padding: 1.25rem 2rem max(1.25rem, env(safe-area-inset-bottom));
   text-align: center;
-  border-top: 1px solid #e6decb;
+  border-top: 1px solid rgba(226, 217, 198, 0.7);
   font-size: 0.78rem;
   color: var(--text-muted);
-  background-color: rgba(250, 246, 238, 0.88);
+  background-color: rgba(250, 246, 238, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -642,44 +656,139 @@
 
 @media (max-width: 640px) {
   .header {
-    padding: 1.5rem 1.25rem 1rem;
+    padding: max(0.85rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 0.65rem max(1rem, env(safe-area-inset-left));
+  }
+  .brandLogo {
+    height: 34px;
+    max-width: 110px;
+    width: auto;
   }
   .progressTextRow,
   .progressBarTrack {
-    width: 140px;
+    width: 130px;
   }
   .mainContent {
-    padding: 1rem 1rem 2.5rem;
+    padding: 0.65rem max(0.85rem, env(safe-area-inset-right)) 1.25rem max(0.85rem, env(safe-area-inset-left));
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
   }
   .surveyCard {
-    padding: 2.25rem 1.25rem 1.75rem;
-    border-radius: 24px;
+    padding: 1.5rem 1.15rem 1.4rem;
+    border-radius: 20px;
+  }
+  .questionHeading {
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
   }
   .gridStep1,
   .gridStep2,
   .gridStep3,
   .gridStep4 {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .optionCard {
+    min-height: 52px;
+    padding: 0.85rem 1rem 0.85rem 2.85rem;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    border-radius: 14px;
+    gap: 0.75rem;
+  }
+  .optionCard:active {
+    transform: scale(0.98);
+    background: #fdfaf3;
+  }
+  .radioCircle {
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+  }
+  .cardIcon {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .cardLabel {
+    font-size: 0.92rem;
+    line-height: 1.25;
   }
   .formRow {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  /* Crucial: 16px font-size prevents iOS Safari from automatically zooming into the form */
+  .textInput {
+    font-size: 16px !important;
+    padding: 0.8rem 1rem;
+    height: 48px;
+    border-radius: 12px;
+  }
+  .phoneInputContainer {
+    height: 48px;
+    border-radius: 12px;
+  }
+  .countryCodeWrapper {
+    height: 100%;
+  }
+  .countryCodeSelect {
+    max-width: 120px;
+    font-size: 16px !important;
+    padding: 0 1.4rem 0 0.75rem;
+    height: 100%;
+  }
+  .phoneInputField {
+    padding: 0 0.85rem;
+    font-size: 16px !important;
+    height: 100%;
+  }
+  .submitBtn {
+    height: 50px;
+    font-size: 0.92rem;
+    border-radius: 9999px;
+    width: 100%;
+    margin-top: 0.65rem;
   }
   .actionRow {
     flex-direction: column-reverse;
-    gap: 1.25rem;
+    gap: 1rem;
     align-items: flex-start;
   }
   .successCard {
-    padding: 2.25rem 1.5rem;
+    padding: 2rem 1.25rem;
   }
-  .countryCodeSelect {
-    max-width: 125px;
-    font-size: 0.85rem;
-    padding: 0.85rem 1.35rem 0.85rem 0.75rem;
+  .footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    width: 100%;
+    padding: 0.85rem max(1rem, env(safe-area-inset-right)) max(1.2rem, calc(env(safe-area-inset-bottom) + 0.5rem)) max(1rem, env(safe-area-inset-left));
   }
-  .phoneInputField {
-    padding: 0.85rem 0.85rem;
-    font-size: 0.9rem;
+
+  /* Explicitly remove all hover effects on mobile */
+  .brandLogo:hover {
+    transform: none;
+  }
+  .backBtn:hover {
+    background: #faf5ea;
+    color: var(--text-secondary);
+    border-color: var(--border-card);
+  }
+  .submitBtn:hover {
+    background: var(--gold-accent);
+    box-shadow: var(--shadow-gold);
+  }
+  .returnBtn:hover {
+    background: var(--gold-accent);
+    box-shadow: var(--shadow-gold);
+  }
+  .optionCard:hover {
+    transform: none;
   }
 }
 

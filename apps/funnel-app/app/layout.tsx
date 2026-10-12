@@ -11,14 +11,16 @@ export const viewport: Viewport = {
   themeColor: "#060913",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://goatassets.ae"),
-  title: "Invest in Dubai | Goat Assets - High-Yield Dubai Real Estate & Wealth Management",
+  title: "Start Invest in Dubai | Goat Assets - High-Yield Dubai Real Estate & Wealth Management",
   description:
     "Capitalize on 0% tax, world-leading rental yields, and luxury off-market properties in Dubai with Goat Assets. Exclusive portfolios curated for elite investors.",
   keywords: [
+    "Start Invest in Dubai",
     "Invest in Dubai",
     "Goat Assets",
     "Dubai Real Estate",
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
     "High Yield Dubai Assets",
   ],
   openGraph: {
-    title: "Invest in Dubai with Goat Assets",
+    title: "Start Invest in Dubai with Goat Assets",
     description:
       "Access high-yield, tax-free property investments and off-market luxury developments in Dubai.",
     images: ["/dubai.jpg"],
