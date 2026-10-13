@@ -20,7 +20,7 @@ export default function Home() {
         <header className={styles.headerCard}>
           <a href="#" className={styles.brand}>
             <Image
-              src="/Goatlogo.png"
+              src="/crest.png"
               alt="Goat Assets Dubai"
               width={180}
               height={52}

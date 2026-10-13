@@ -230,7 +230,7 @@ export default function SurveyView({ onClose }: SurveyViewProps) {
       <header className={styles.header}>
         <a href="#" onClick={(e) => { e.preventDefault(); onClose(); }} className={styles.brand}>
           <Image
-            src="/Goatlogo.png"
+            src="/crest.png"
             alt="Goat Assets Dubai"
             width={180}
             height={52}

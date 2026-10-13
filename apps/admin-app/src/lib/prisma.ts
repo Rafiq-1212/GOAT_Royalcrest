@@ -5,10 +5,15 @@ import path from "path";
 // Read DATABASE_URL from .env directly to ensure correct connection
 function getDatabaseUrl(): string | undefined {
   try {
-    const localEnv = path.resolve(process.cwd(), ".env");
-    const rootEnv = path.resolve(process.cwd(), "..", "..", ".env");
-    const envPath = fs.existsSync(localEnv) ? localEnv : rootEnv;
-    if (fs.existsSync(envPath)) {
+    const cwd = process.cwd();
+    const candidates = [
+      path.resolve(cwd, ".env.local"),
+      path.resolve(cwd, ".env"),
+      path.resolve(cwd, "..", "..", ".env.local"),
+      path.resolve(cwd, "..", "..", ".env"),
+    ];
+    const envPath = candidates.find((p) => fs.existsSync(p));
+    if (envPath) {
       const content = fs.readFileSync(envPath, "utf-8");
       const match = content.match(/DATABASE_URL=["']?([^"'\r\n]+)["']?/);
       if (match && match[1]) {

@@ -285,7 +285,7 @@ export default function AdminPage() {
       <div className={styles.loginWrapper}>
         <div className={styles.loginCard}>
           <Image
-            src="/Goatlogo.png"
+            src="/crest.png"
             alt="Goat Assets Dubai"
             width={170}
             height={52}
@@ -432,7 +432,7 @@ export default function AdminPage() {
       <header className={styles.header}>
         <div className={styles.brandGroup}>
           <Image
-            src="/Goatlogo.png"
+            src="/crest.png"
             alt="Goat Assets Dubai"
             width={160}
             height={48}

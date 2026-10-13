@@ -7,7 +7,7 @@
 
 /* TOP HEADER */
 .header {
-  height: 72px;
+  height: 92px;
   background-color: var(--bg-surface);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -29,7 +29,10 @@
 .brandLogo {
   height: 48px;
   width: auto;
+  transform: scale(2.6);
+  transform-origin: left center;
   object-fit: contain;
+  margin-right: 7.5rem;
 }
 
 .pageHeading {
@@ -643,10 +646,11 @@
 }
 
 .loginLogo {
-  height: 52px;
+  height: 50px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 1.25rem;
+  transform: scale(2.5);
+  margin-bottom: 3.25rem;
 }
 
 .loginSecurityBadge {

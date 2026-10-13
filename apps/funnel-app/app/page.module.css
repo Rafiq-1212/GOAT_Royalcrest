@@ -55,16 +55,18 @@
 }
 
 .brandLogo {
-  height: 52px;
+  height: 82px;
   width: auto;
   object-fit: contain;
   display: block;
+  transform: scale(1.55);
+  transform-origin: left center;
   transition: transform 0.2s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .brandLogo:hover {
-    transform: scale(1.02);
+    transform: scale(1.48);
   }
 }
 
@@ -453,6 +455,7 @@
     height: 38px;
     max-width: 120px;
     width: auto;
+    transform: scale(1.3);
   }
 
   .headerCtaBtn {
@@ -672,7 +675,7 @@
   }
 
   .brandLogo:hover {
-    transform: none;
+    transform: scale(1.3);
   }
 
   .headerCtaBtn:hover {

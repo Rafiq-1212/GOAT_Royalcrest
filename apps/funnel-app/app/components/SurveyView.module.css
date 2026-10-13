@@ -76,15 +76,17 @@
   height: 52px;
   width: auto;
   object-fit: contain;
+  transform: scale(2.5);
+  transform-origin: left center;
   display: block;
   transition: transform 0.2s ease;
 }
-
+/* 
 @media (hover: hover) and (pointer: fine) {
   .brandLogo:hover {
     transform: scale(1.02);
   }
-}
+} */
 
 /* Step Progress Indicator */
 .progressGroup {
