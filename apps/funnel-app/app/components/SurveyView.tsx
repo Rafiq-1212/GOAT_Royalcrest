@@ -653,11 +653,9 @@ export default function SurveyView({ onClose }: SurveyViewProps) {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h2 className={styles.successTitle}>Your Offers Are Being Prepared</h2>
+            <h2 className={styles.successTitle}>Thank You! {answers.fullName || "valued investor"}</h2>
             <p className={styles.successDesc}>
-              Thank you, {answers.fullName || "valued investor"}. A senior Goat Assets portfolio
-              director has matched your criteria and will share curated off-market allocations via
-              WhatsApp and email.
+              We’ve received your details and requirements. Our team will review them and get back to you shortly.
             </p>
 
             <div className={styles.summaryBox}>
